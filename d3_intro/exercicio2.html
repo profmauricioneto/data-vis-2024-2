@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <title>Exercicio 1/2</title>
+  </head>
+  <body>
+    <label for="compare">Compare to:</label>
+    <select name="movies" id="movies">
+        <option value="gross">Gross</option>
+        <option value="budget">Budget</option>
+    </select>
+
+    <h1>Bar graphic by Movies Data</h1>
+    <div id="bar-movies"></div>
+
+
+    <h1>Bar graphic by Budget</h1>
+    <div id="bar-movies-budget"></div>
+
+
+    <script type="text/javascript">
+      let colorScale = d3.scaleLinear()
+        .domain([600, 1000])
+        .range(["#008000", "#FF0000"]); // Escala de cor
+
+      function render(data, comparator) {
+        // Criando os elementos HTML que ainda nao existem!
+        d3.select("#bar-movies")
+          .selectAll("div.h-bar")
+          .data(data)
+          .enter()
+          .append("div")
+          .attr("class", "h-bar")
+          .append("span");
+
+        // Atualizando os elementos HTML que ja existem!
+        d3.select("#bar-movies")
+          .selectAll("div.h-bar")
+          .data(data)
+          .attr("class", "h-bar")
+          .style("background-color", function (d) {
+            return colorScale(d.Worldwide_Gross_M);
+          })
+          .style("width", function (d) {
+            return (d.Worldwide_Gross_M)  + "px";
+          })
+          .select("span")
+          .text(function (d) {
+            return (d.Worldwide_Gross_M);
+          });
+
+        if (comparator) {
+          d3.select("#bar-movies").selectAll("div.h-bar").sort(comparator);
+        }
+      }
+
+
+    let measureTotalGross = function (a, b) {
+        return a.Worldwide_Gross_M - b.Worldwide_Gross_M;
+      };
+
+    let measureTotalBudget = function (a, b) {
+        return a.Budget_M - b.Budget_M;
+      };
+
+    let moviesbygross = d3.json("data/movies.json").then(function (json) {
+            render(json, measureTotalGross);
+        });
+    let moviesbybudget = d3.json("data/movies.json").then(function (json) {
+            render(json, measureTotalBudget);
+        });
+
+    var select = document.getElementById("movies");
+    select.addEventListener("change", function(){
+        if (select.value === "gross"){
+            render(moviesbygross, measureTotalGross);
+        } else if (select.value === "budget") {
+            render(moviesbybudget, measureTotalBudget);
+        }
+    });
+
+
+    /**
+     * Exercicio 2
+    */
+    function render2(data, comparator) {
+        // Criando os elementos HTML que ainda nao existem!
+        d3.select("#bar-movies-budget")
+          .selectAll("div.h-bar")
+          .data(data)
+          .enter()
+          .append("div")
+          .attr("class", "h-bar")
+          .append("span");
+
+        // Atualizando os elementos HTML que ja existem!
+        d3.select("#bar-movies-budget")
+          .selectAll("div.h-bar")
+          .data(data)
+          .attr("class", "h-bar")
+          .style("background-color", "#9B111E")
+          .style("width", function (d) {
+            return (d.Budget_M)  + "px";
+          })
+          .select("span")
+          .text(function (d) {
+            return (d.Genre);
+          });
+
+        if (comparator) {
+          d3.select("#bar-movies-budget").selectAll("div.h-bar").sort(comparator);
+        }
+      }
+
+      d3.json("data/movies.json").then(function (json) {
+        render2(json, measureTotalBudget);
+      });
+    
+    </script>
+  </body>
+</html>

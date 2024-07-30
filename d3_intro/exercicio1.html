@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <title>Exercicio 1/2</title>
+  </head>
+  <body>
+    <div id="bar-movies"></div>
+
+    <script type="text/javascript">
+      function render(data, comparator) {
+        // Criando os elementos HTML que ainda nao existem!
+        d3.select("#bar-movies")
+          .selectAll("div.h-bar")
+          .data(data)
+          .enter()
+          .append("div")
+          .attr("class", "h-bar")
+          .append("span");
+
+        // Atualizando os elementos HTML que ja existem!
+        d3.select("#bar-movies")
+          .selectAll("div.h-bar")
+          .data(data)
+          .attr("class", "h-bar")
+          .style("width", function (d) {
+            return (d.Worldwide_Gross_M)  + "px";
+          })
+          .select("span")
+          .text(function (d) {
+            return (d.Worldwide_Gross_M);
+          });
+
+        if (comparator) {
+          d3.select("#bar-movies").selectAll("div.h-bar").sort(comparator);
+        }
+      }
+
+      let measureTotalGross = function (a, b) {
+        return a.Worldwide_Gross_M - b.Worldwide_Gross_M;
+      };
+
+      let measureTotalBudget = function (a, b) {
+        return a.Budget_M - b.Budget_M;
+      };
+
+      d3.json("data/movies.json").then(function (json) {
+        render(json, measureTotalGross);
+      });
+    </script>
+  </body>
+</html>
