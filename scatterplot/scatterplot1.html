@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <title>Scatterplot</title>
+  </head>
+  <body>
+    <!-- crie um svg do tipo circular -->
+    <svg width="500" height="500"></svg>
+    <script type="text/javascript">
+      function generateScatterData() {
+        let data = [];
+        for (let i = 0; i < 20; i++) {
+          data.push([Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)]);
+        }
+        return data;
+      }
+
+      let dataset = [
+        [5, 20],
+        [480, 90],
+        [250, 50],
+        [100, 33],
+        [330, 95],
+        [410, 12],
+        [475, 44],
+        [25, 67],
+        [85, 21],
+        [220, 88],
+      ];
+
+      var svg = d3
+        .select("svg")
+        .append("g")
+        .attr("transform", "translate(50, 50)");
+
+      svg
+        .selectAll("svg")
+        .data(dataset)
+        .enter()
+        .append("circle")
+        .attr("cx", (d) => d[0])
+        .attr("cy", (d) => d[1])
+        .attr("r", 5)
+        .style("fill", "black");
+
+      svg
+        .selectAll("text")
+        .data(dataset)
+        .enter()
+        .append("text")
+        .attr("x", (d) => d[0] + 5)
+        .attr("y", (d) => d[1])
+        .style("font-family", "sans-serif")
+        .style("font-size", 12)
+        .style("fill", "red")
+        .text((d) => d[0] + "," + d[1]);
+
+        let xScale = d3.scaleLinear()
+          .domain([0, d3.max(dataset, d => d[0])])
+          .range([0, 500]);
+
+        let yScale = d3.scaleLinear() 
+          .domain([0, d3.max(dataset, d => d[1])])
+          .range([0, 500]);
+          
+    </script>
+  </body>
+</html>

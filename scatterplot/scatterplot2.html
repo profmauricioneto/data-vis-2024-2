@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <title>Scatterplot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .dot {
+            fill: steelblue;
+            stroke: black;
+        }
+    </style>
+  </head>
+  <body>
+    <!-- crie um svg do tipo circular -->
+    <svg width="800" height="600"></svg>
+    <script type="text/javascript">
+      let dataset = [
+        [5, 20],
+        [480, 90],
+        [250, 50],
+        [100, 33],
+        [330, 95],
+        [410, 12],
+        [475, 44],
+        [25, 67],
+        [85, 21],
+        [220, 88],
+        [650, 100],
+      ];
+      // Dimensões da área de desenho
+      const width = 800;
+      const height = 500;
+      const padding = 50;
+
+      // Escalas
+      const xScale = d3
+        .scaleLinear()
+        .domain([0, d3.max(dataset, (d) => d[0])])
+        .range([padding, width - padding]);
+
+      const yScale = d3
+        .scaleLinear()
+        .domain([0, d3.max(dataset, (d) => d[1])])
+        .range([height - padding, padding]);
+
+      // Selecionar o SVG e configurar suas dimensões
+      const svg = d3.select("svg");
+
+      // Criar e posicionar os pontos do scatterplot
+      svg
+        .selectAll("circle")
+        .data(dataset)
+        .enter()
+        .append("circle")
+        .attr("class", "dot")
+        .attr("cx", (d) => xScale(d[0]))
+        .attr("cy", (d) => yScale(d[1]))
+        .attr("r", 5);
+
+        svg
+        .selectAll("text")
+        .data(dataset)
+        .enter()
+        .append("text")
+        .attr("x", (d) => xScale(d[0]))
+        .attr("y", (d) => yScale(d[1]))
+        .style("font-family", "sans-serif")
+        .style("font-size", 12)
+        .style("fill", "red")
+        .text((d) => d[0] + "," + d[1]);
+
+        // Adicionar eixos
+        const xAxis = d3.axisBottom(xScale);
+        const yAxis = d3.axisLeft(yScale);
+
+      svg
+        .append("g")
+        .attr("transform", `translate(0, ${height - padding})`)
+        .call(xAxis);
+
+      svg
+      .append("g")
+      .attr("transform", `translate(${padding}, 0)`)
+      .call(yAxis);
+    </script>
+  </body>
+</html>

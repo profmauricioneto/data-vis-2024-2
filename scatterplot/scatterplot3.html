@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scatterplot Dinâmico com D3.js</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .dot {
+            fill: steelblue;
+            stroke: black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Scatterplot Dinâmico com D3.js</h1>
+    <button id="add-point">Adicionar Ponto</button>
+    <svg width="700" height="400"></svg>
+
+    <script>
+        // Conjunto de dados inicial
+        let dataset = [
+            [5, 20], [480, 90], [250, 50], [100, 33], [330, 95], 
+            [410, 12], [475, 44], [25, 67], [85, 21], [220, 88], [650, 100]
+        ];
+
+        // Dimensões da área de desenho
+        const width = 700;
+        const height = 400;
+        const padding = 50;
+
+        // Escalas
+        const xScale = d3.scaleLinear()
+            .domain([0, d3.max(dataset, d => d[0])])
+            .range([padding, width - padding]);
+
+        const yScale = d3.scaleLinear()
+            .domain([0, d3.max(dataset, d => d[1])])
+            .range([height - padding, padding]);
+
+        // Selecionar o SVG e configurar suas dimensões
+        const svg = d3.select("svg");
+
+        // Função para atualizar o gráfico
+        function updateGraph() {
+            // Atualizar as escalas
+            xScale.domain([0, d3.max(dataset, d => d[0])]);
+            yScale.domain([0, d3.max(dataset, d => d[1])]);
+
+            // Bind de dados e criação dos círculos
+            const circles = svg.selectAll("circle")
+                .data(dataset, d => d);
+
+            // Atualizar círculos existentes
+            circles
+                .attr("cx", d => xScale(d[0]))
+                .attr("cy", d => yScale(d[1]));
+
+            // Adicionar novos círculos
+            circles.enter()
+                .append("circle")
+                .attr("class", "dot")
+                .attr("cx", d => xScale(d[0]))
+                .attr("cy", d => yScale(d[1]))
+                .attr("r", 5);
+
+            // Atualizar textos
+            circles.enter()
+                .append("text")
+                .attr("x", d => xScale(d[0]) + 5)
+                .attr("y", d => yScale(d[1]))
+                .style("font-family", "sans-serif")
+                .style("font-size", 12)
+                .style("fill", "red")
+                .text(d => d[0] + "," + d[1]);
+
+            // Remover círculos que não existem mais
+            // circles.exit().remove();
+
+            // Atualizar eixos
+            svg.select(".x-axis")
+                .call(d3.axisBottom(xScale));
+            svg.select(".y-axis")
+                .call(d3.axisLeft(yScale));
+        }
+
+        // Adicionar eixos
+        svg.append("g")
+            .attr("class", "x-axis")
+            .attr("transform", `translate(0, ${height - padding})`)
+            .call(d3.axisBottom(xScale));
+
+        svg.append("g")
+            .attr("class", "y-axis")
+            .attr("transform", `translate(${padding}, 0)`)
+            .call(d3.axisLeft(yScale));
+
+        // Desenhar o gráfico inicial
+        updateGraph();
+
+        // Função para adicionar um ponto
+        document.getElementById("add-point").addEventListener("click", () => {
+            const x = parseFloat(prompt("Digite o valor de X:"));
+            const y = parseFloat(prompt("Digite o valor de Y:"));
+
+            if (!isNaN(x) && !isNaN(y)) {
+                dataset.push([x, y]);
+                // document.querySelector("svg").innerHTML = "";
+                updateGraph();
+            } else {
+                alert("Por favor, insira números válidos.");
+            }
+        });
+    </script>
+</body>
+</html>
