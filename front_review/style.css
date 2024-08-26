@@ -1,0 +1,14 @@
+strong {
+    font-weight: bold;
+    color: red;
+}
+
+#title {
+    font-size: larger;
+    font-weight: bolder;
+}
+
+.paragraph {
+    color: blue;
+    font-family: monospace;
+}
