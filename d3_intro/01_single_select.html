@@ -16,6 +16,11 @@
    .style("background-color", "pink")
    .attr("id", "newdiv")
    .text("Hello World!")
+
+   d3.select("div#newdiv")
+   .append("p")
+   .style("background-color", "lightblue")
+   .text("This is a paragraph")
 </script>
 
 </body>
