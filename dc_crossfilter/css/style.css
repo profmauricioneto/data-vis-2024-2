@@ -1,0 +1,20 @@
+/* General Styles */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Content Container */
+  .content {
+    padding: 20px;
+  }
+  
+  /* Chart Section */
+  #chart {
+    text-align: center;
+  }
+  
+  #chart h4 {
+    margin-bottom: 15px;
+  }
