@@ -31,6 +31,8 @@
         
         d3.json("data/data.json").then(function(json){ 
             render(json);
+        }).catch(function(error) {
+            console.error("Erro ao carregar o arquivo: " + error);
         });
     </script>
 </body>

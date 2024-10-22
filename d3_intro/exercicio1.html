@@ -7,6 +7,9 @@
     <title>Exercicio 1/2</title>
   </head>
   <body>
+    <header>
+      <h1>Movies Graph by WorldWide Gross</h1>
+    </header>
     <div id="bar-movies"></div>
 
     <script type="text/javascript">
@@ -30,7 +33,7 @@
           })
           .select("span")
           .text(function (d) {
-            return (d.Worldwide_Gross_M);
+            return (d.Film);
           });
 
         if (comparator) {
@@ -47,7 +50,7 @@
       };
 
       d3.json("data/movies.json").then(function (json) {
-        render(json, measureTotalGross);
+        render(json, measureTotalBudget);
       });
     </script>
   </body>

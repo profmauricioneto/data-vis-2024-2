@@ -18,6 +18,7 @@
                 .append("div")
                     .attr("class", "h-bar")
 					.style("width", function(d){return 3*d+"px"})
+                    .style("opacity", function(d) { return d/100; })
                   //primeiro formato .style("width", d=> 3*d+"px")
 				  //segundo formato .style("width", function(d){return 3*d+"px"})
 					

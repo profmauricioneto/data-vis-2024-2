@@ -4,24 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://d3js.org/d3.v5.min.js"></script>
-    <title>Scatterplot</title>
+    <title>Scattplot</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .dot {
+        fill: steelblue;
+        stroke: black;
+      }
+    </style>
   </head>
   <body>
-    <!-- crie um svg do tipo circular -->
-    <svg width="500" height="500"></svg>
-    
-    
-    
-    
-    <script type="text/javascript">
-      function generateScatterData() {
-        let data = [];
-        for (let i = 0; i < 20; i++) {
-          data.push([Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)]);
-        }
-        return data;
-      }
+    <svg width="500" heigth="500"></svg>
 
+    <script>
       let dataset = [
         [5, 20],
         [480, 90],
@@ -35,21 +33,32 @@
         [220, 88],
       ];
 
+      let xScale = d3.scaleLinear()
+          .domain([0, d3.max(dataset, (d) => d[0])])
+          .range([0, 500]);
+
+      let yScale = d3.scaleLinear()
+          .domain([0, d3.max(dataset, (d) => d[1])])
+          .range([0, 500]);
+
       var svg = d3
         .select("svg")
         .append("g")
         .attr("transform", "translate(50, 50)");
 
+      // criando os elementos dentro de svg
       svg
-        .selectAll("svg")
+        .selectAll("circle")
         .data(dataset)
         .enter()
         .append("circle")
+        .attr("class", "dot")
         .attr("cx", (d) => d[0])
         .attr("cy", (d) => d[1])
         .attr("r", 5)
         .style("fill", "black");
 
+      //
       svg
         .selectAll("text")
         .data(dataset)
@@ -57,19 +66,10 @@
         .append("text")
         .attr("x", (d) => d[0] + 5)
         .attr("y", (d) => d[1])
-        .style("font-family", "sans-serif")
         .style("font-size", 12)
         .style("fill", "red")
-        .text((d) => d[0] + "," + d[1]);
+        .text((d) => "(" + d[0] + ", " + d[1] + ")");
 
-        let xScale = d3.scaleLinear()
-          .domain([0, d3.max(dataset, d => d[0])])
-          .range([0, 500]);
-
-        let yScale = d3.scaleLinear() 
-          .domain([0, d3.max(dataset, d => d[1])])
-          .range([0, 500]);
-          
     </script>
   </body>
 </html>
