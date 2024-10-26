@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercicio 01</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  
+  <body>
+    <header>
+      <h2>Meu Gráfico de Barra</h2>
+    </header>
+
+    <div id="graph"></div>
+
+    <script type="text/javascript">
+      let myValues = [1, 53, 64, 23, 21, 12, 98, 9, 2];
+      function render(data) {
+
+        //  criação dos elementos
+        d3.select("#graph")
+          .selectAll("div.h-bar")
+          .data(myValues.sort(d3.ascending))
+          .enter()
+          .append("div")
+          .attr("class", "h-bar")
+          .append("span");
+
+        //   Atualização dos elementos
+        d3.select("#graph")
+          .selectAll("div.h-bar")
+          .data(myValues.sort(d3.ascending))
+          .style("width", function (d) {
+            return (5 * d) + "px";
+          })
+          .select("span")
+          .text(function (d) {
+            return (d);
+          });
+      }
+
+      render(myValues);
+    </script>
+  </body>
+</html>

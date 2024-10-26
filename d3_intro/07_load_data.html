@@ -16,14 +16,7 @@
                 .enter().append("div")
                 .attr("class", "h-bar")
                 .append("span");
-            
-            d3.select("#chart").selectAll("div.h-bar")
-                    .data(data)
-                .attr("class", "h-bar")
-                .style("width", function (d) {
-                    return (d.despesa * 10) + "px";
-                })
-                .select("span")
+                dect("span")
                     .text(function (d) {
                         return d.categoria;
                     });
