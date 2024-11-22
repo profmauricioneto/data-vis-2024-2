@@ -15,8 +15,8 @@ d3.csv(
   // Definindo as dimensões e grupos
   let dateDimension = ndx.dimension((d) => d.date);
   let googleDimesion = ndx.dimension((d) => d.google);
-  let topTenGoogle = googleDimesion.top(10);
-  let bottomTenGoogle = googleDimesion.bottom(10);
+  // let topTenGoogle = googleDimesion.top(10);
+  // let bottomTenGoogle = googleDimesion.bottom(10);
   let googleByDayGroup = dateDimension.group().reduceSum((d) => d.google);
 
   let facebookByDayGroup = dateDimension.group().reduceSum((d) => d.facebook);
