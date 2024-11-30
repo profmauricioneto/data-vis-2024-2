@@ -18,19 +18,19 @@ d3.csv(
   // let topTenGoogle = googleDimesion.top(10);
   // let bottomTenGoogle = googleDimesion.bottom(10);
   let googleByDayGroup = dateDimension.group().reduceSum((d) => d.google);
-
   let facebookByDayGroup = dateDimension.group().reduceSum((d) => d.facebook);
 
-  let lineChart = dc.lineChart(document.querySelector("#chart"));
   let xScale = d3
-    .scaleTime()
-    .domain([dateDimension.bottom(1)[0].date, dateDimension.top(1)[0].date]);
+  .scaleTime()
+  .domain([dateDimension.bottom(1)[0].date, dateDimension.top(1)[0].date]);
+  
+  let lineChart = dc.lineChart(document.querySelector("#chart"));
+
 
   lineChart
     .width(800)
     .height(400)
     .dimension(dateDimension)
-
     .margins({ top: 30, right: 50, bottom: 25, left: 40 })
     .renderArea(false)
     .x(xScale)
